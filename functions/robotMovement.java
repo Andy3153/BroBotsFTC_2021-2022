@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.functions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-//import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-import static org.firstinspires.ftc.teamcode.functions.Constants.driveMotorTickCount;
-import static org.firstinspires.ftc.teamcode.functions.Constants.driveWheelCircumference;
+import static org.firstinspires.ftc.teamcode.functions.constants.driveMotorTickCount;
+import static org.firstinspires.ftc.teamcode.functions.constants.driveWheelCircumference;
 
 public class robotMovement {
+    //region Mecanum movement
     public static void driveMove(DcMotor FL, DcMotor FR, DcMotor BL, DcMotor BR, float speed) {
         FL.setPower(-speed);
         FR.setPower(speed);
@@ -34,7 +34,9 @@ public class robotMovement {
         BL.setPower(0);
         BR.setPower(0);
     }
+    //endregion
 
+    //region Autonomous
     public static void autoDriveMove(DcMotor FL, DcMotor FR, DcMotor BL, DcMotor BR, double speed, int Pixeli) //int encoderDrivingTarget) //int howManyCm)
     {
         FR.setDirection(DcMotor.Direction.REVERSE);
@@ -168,25 +170,5 @@ public class robotMovement {
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
-    public static void autoMoveArm(DcMotor motor, boolean reverse, double power, int ticks) {
-        if (reverse)
-            motor.setDirection(DcMotor.Direction.REVERSE);
-
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        motor.setTargetPosition(ticks);
-        motor.setPower(power);
-
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while (motor.isBusy()) {
-//            telemetry.addData("Status", "Misc. Motor running");
-//            telemetry.update();
-        }
-
-        motor.setPower(0);
-    }
-
-
+    //endregion
 }

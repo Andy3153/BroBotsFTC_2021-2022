@@ -15,3 +15,6 @@
 
 # KDevelop project files
 **/*.kdev4
+
+# IDEA IDEs
+**/.idea
