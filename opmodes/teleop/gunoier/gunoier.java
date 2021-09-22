@@ -11,8 +11,11 @@ import static org.firstinspires.ftc.teamcode.functions.robotMovement.driveStrafe
 import static org.firstinspires.ftc.teamcode.functions.robotMovement.driveTurn;
 import static org.firstinspires.ftc.teamcode.functions.robotMovement.driveZero;
 
-import static org.firstinspires.ftc.teamcode.functions.robotServos.armPos;
-import static org.firstinspires.ftc.teamcode.functions.robotServos.clawPos;
+//import static org.firstinspires.ftc.teamcode.functions.robotServos.armPos;
+//import static org.firstinspires.ftc.teamcode.functions.robotServos.clawPos;
+
+import static org.firstinspires.ftc.teamcode.functions.robotServos.useArm;
+import static org.firstinspires.ftc.teamcode.functions.robotServos.useClaw;
 
 import static org.firstinspires.ftc.teamcode.functions.constants.armMinPos;
 import static org.firstinspires.ftc.teamcode.functions.constants.armMaxPos;
@@ -72,17 +75,20 @@ public class gunoier extends LinearOpMode
             //endregion
 
             //region Servos
-            if(gamepad1.dpad_up || gamepad1.dpad_down)
-            {
-                H1Servo0_ArmL.setPosition(armPos(0.05f, gamepad1));
-                H1Servo1_ArmR.setPosition(1 - armPos(0.05f, gamepad1));
-            }
+//            if(gamepad1.dpad_up || gamepad1.dpad_down)
+//            {
+//                H1Servo0_ArmL.setPosition(armPos(0.05f, gamepad1));
+//                H1Servo1_ArmR.setPosition(1 - armPos(0.05f, gamepad1));
+//            }
 
-            if(gamepad1.dpad_left || gamepad1.dpad_right)
-            {
-                H1Servo2_ClawL.setPosition(clawPos(0.05f, gamepad1));
-                H1Servo3_ClawR.setPosition(1 - clawPos(0.05f, gamepad1));
-            }
+//            if(gamepad1.dpad_left || gamepad1.dpad_right)
+//            {
+//                H1Servo2_ClawL.setPosition(clawPos(0.05f, gamepad1));
+//                H1Servo3_ClawR.setPosition(1 - clawPos(0.05f, gamepad1));
+//            }
+
+            useArm(H1Servo0_ArmL, H1Servo1_ArmR, gamepad1);
+            useClaw(H1Servo2_ClawL, H1Servo3_ClawR, H1Servo0_ArmL, H1Servo1_ArmR, gamepad1);
             //endregion
         }
     }
