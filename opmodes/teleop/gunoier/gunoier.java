@@ -21,57 +21,55 @@ import static org.firstinspires.ftc.teamcode.functions.constants.armMinPos;
 import static org.firstinspires.ftc.teamcode.functions.constants.armMaxPos;
 import static org.firstinspires.ftc.teamcode.functions.constants.clawMinPos;
 import static org.firstinspires.ftc.teamcode.functions.constants.clawMaxPos;
+import static org.firstinspires.ftc.teamcode.functions.robotServos.useServos;
 
 @TeleOp(name="gunoier", group="TeleOp")
-public class gunoier extends LinearOpMode
-{
+public class gunoier extends LinearOpMode {
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         //region Declaring variables
         float driveMoveSpeed, driveStrafeSpeed, driveTurnSpeed;
         //endregion
 
         //region Declaring motors
-        DcMotorEx H1Motor0_FL = hardwareMap.get(DcMotorEx.class, "H1Motor0_FL");
-        DcMotorEx H1Motor1_FR = hardwareMap.get(DcMotorEx.class, "H1Motor1_FR");
-        DcMotorEx H1Motor2_BL = hardwareMap.get(DcMotorEx.class, "H1Motor2_BL");
-        DcMotorEx H1Motor3_BR = hardwareMap.get(DcMotorEx.class, "H1Motor3_BR");
+//        DcMotorEx H1Motor2_FL = hardwareMap.get(DcMotorEx.class, "H1Motor2_FL");
+//        DcMotorEx H1Motor3_FR = hardwareMap.get(DcMotorEx.class, "H1Motor3_FR");
+//        DcMotorEx H1Motor0_BL = hardwareMap.get(DcMotorEx.class, "H1Motor0_BL");
+//        DcMotorEx H1Motor1_BR = hardwareMap.get(DcMotorEx.class, "H1Motor1_BR");
 
-        Servo H1Servo0_ArmL = hardwareMap.get(Servo.class, "H1Servo0_ArmL");
-        Servo H1Servo1_ArmR = hardwareMap.get(Servo.class, "H1Servo1_ArmR");
-        Servo H1Servo2_ClawL = hardwareMap.get(Servo.class, "H1Servo2_ClawL" );
-        Servo H1Servo3_ClawR = hardwareMap.get(Servo.class, "H1Servo3_ClawR");
         //endregion
+
+        Servo arm = hardwareMap.get(Servo.class, "Arm");
+        Servo rotator = hardwareMap.get(Servo.class, "Rotator");
 
         //region Initial positions
-        driveZero(H1Motor0_FL, H1Motor1_FR, H1Motor2_BL, H1Motor3_BR);
+        //driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
 
-        H1Servo0_ArmL.setPosition(armMaxPos);
-        H1Servo1_ArmR.setPosition(1 -armMaxPos);
-        H1Servo2_ClawL.setPosition(clawMinPos);
-        H1Servo3_ClawR.setPosition(1 - clawMinPos);
-        //endregion
 
         waitForStart();
 
-        while(opModeIsActive())
-        {
+        while (opModeIsActive()) {
             //region Driving
-            if((driveMoveSpeed = gamepad1.left_stick_y) != 0)
-                driveMove(H1Motor0_FL, H1Motor1_FR, H1Motor2_BL, H1Motor3_BR, driveMoveSpeed);
-            else
-                driveZero(H1Motor0_FL, H1Motor1_FR, H1Motor2_BL, H1Motor3_BR);
-
-            if((driveStrafeSpeed = gamepad1.left_stick_x) != 0)
-                driveStrafe(H1Motor0_FL, H1Motor1_FR, H1Motor2_BL, H1Motor3_BR, -driveStrafeSpeed);
-            else
-                driveZero(H1Motor0_FL, H1Motor1_FR, H1Motor2_BL, H1Motor3_BR);
-
-            if((driveTurnSpeed = gamepad1.right_stick_x) != 0)
-                driveTurn(H1Motor0_FL, H1Motor1_FR, H1Motor2_BL, H1Motor3_BR, driveTurnSpeed);
-            else
-                driveZero(H1Motor0_FL, H1Motor1_FR, H1Motor2_BL, H1Motor3_BR);
+//            if (gamepad1.right_stick_x <= 0.5 && gamepad1.right_stick_x >= -0.5 && gamepad1.right_stick_y <= -0.3)
+//                driveMove(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR, (float) 0.3);
+//            else if (gamepad1.right_stick_x <= 0.5 && gamepad1.right_stick_x >= -0.5 && gamepad1.right_stick_y >= 0.3)
+//                driveMove(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) -0.3);
+//            else
+//                driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
+//
+//            if(gamepad1.right_stick_x >= 0.2 && gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_y >= -0.5 )
+//                driveStrafe(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) 0.4);
+//            else if(gamepad1.right_stick_x <= -0.2 && gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_y >= -0.5 )
+//                driveStrafe(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) -0.4);
+//            else
+//                driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
+//
+//            if(gamepad1.left_stick_y >= -0.5 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_x >= 0.2)
+//                driveTurn(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) 0.2);
+//            else if(gamepad1.left_stick_y >= -0.5 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_x <= -0.2)
+//                driveTurn(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) -0.2);
+//            else
+//                driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
             //endregion
 
             //region Servos
@@ -86,10 +84,10 @@ public class gunoier extends LinearOpMode
 //                H1Servo2_ClawL.setPosition(clawPos(0.05f, gamepad1));
 //                H1Servo3_ClawR.setPosition(1 - clawPos(0.05f, gamepad1));
 //            }
-
-            useArm(H1Servo0_ArmL, H1Servo1_ArmR, gamepad1);
-            useClaw(H1Servo2_ClawL, H1Servo3_ClawR, H1Servo0_ArmL, H1Servo1_ArmR, gamepad1);
             //endregion
+
+
+
         }
     }
 }

@@ -9,10 +9,9 @@ import static org.firstinspires.ftc.teamcode.functions.constants.clawMinPos;
 import static org.firstinspires.ftc.teamcode.functions.constants.clawMaxPos;
 
 public class robotServos {
-    public static void useServos(Servo servo1, Servo servo2, float position)
+    public static void useServos(Servo servo1, float position)
     {
         servo1.setPosition(position);
-        servo2.setPosition(1 - position);
     }
 
 //    public static float armPos(float posIncrement, Gamepad gamepad) {
@@ -48,27 +47,25 @@ public class robotServos {
 //        return clawPos;
 //    }
 
-    public static void useClaw(Servo clawL, Servo clawR, Servo armL, Servo armR, Gamepad gamepad){
+    public static void useClaw(Servo clawL, Gamepad gamepad){
         if(gamepad.dpad_left)
         {
-            useServos(armL, armR, armMaxPos);
-            useServos(clawL, clawR, clawMinPos);
+            useServos(clawL,clawMinPos);
         }
         else if(gamepad.dpad_right)
         {
-            useServos(armL, armR, (armMinPos + 0.05f));
-            useServos(clawL, clawR, clawMaxPos);
+            useServos(clawL, clawMaxPos);
         }
     }
 
-    public static void useArm(Servo armL, Servo armR, Gamepad gamepad){
+    public static void useArm(Servo armL, Gamepad gamepad){
         if(gamepad.dpad_up)
         {
-            useServos(armL, armR, armMaxPos);
+            useServos(armL, armMaxPos);
         }
         else if(gamepad.dpad_down)
         {
-            useServos(armL, armR, armMinPos);
+            useServos(armL, armMinPos);
         }
     }
 }
