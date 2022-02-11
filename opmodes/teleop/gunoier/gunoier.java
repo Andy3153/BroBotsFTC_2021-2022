@@ -25,68 +25,84 @@ import static org.firstinspires.ftc.teamcode.functions.robotServos.useServos;
 
 @TeleOp(name="gunoier", group="TeleOp")
 public class gunoier extends LinearOpMode {
-    @Override
     public void runOpMode() {
         //region Declaring variables
         float driveMoveSpeed, driveStrafeSpeed, driveTurnSpeed;
+        float rotator_position = 0, arm1_pos = (float)0.2, arm3_pos = 0;
+        boolean okAndy = false;
         //endregion
 
         //region Declaring motors
-//        DcMotorEx H1Motor2_FL = hardwareMap.get(DcMotorEx.class, "H1Motor2_FL");
-//        DcMotorEx H1Motor3_FR = hardwareMap.get(DcMotorEx.class, "H1Motor3_FR");
-//        DcMotorEx H1Motor0_BL = hardwareMap.get(DcMotorEx.class, "H1Motor0_BL");
-//        DcMotorEx H1Motor1_BR = hardwareMap.get(DcMotorEx.class, "H1Motor1_BR");
+        DcMotorEx H1Motor0_FL = hardwareMap.get(DcMotorEx.class, "H1Motor0_FL");
+        DcMotorEx H2Motor0_FR = hardwareMap.get(DcMotorEx.class, "H2Motor0_FR");
+        DcMotorEx H1Motor1_BL = hardwareMap.get(DcMotorEx.class, "H1Motor1_BL");
+        DcMotorEx H2Motor1_BR = hardwareMap.get(DcMotorEx.class, "H2Motor1_BR");
+        DcMotorEx H2Motor2_Duck = hardwareMap.get(DcMotorEx.class, "H2Motor2_Duck");
 
+        Servo H1Servo0_Rotator = hardwareMap.get(Servo.class, "H1Servo0_Rotator");
+        Servo H1Servo1_Arm1 = hardwareMap.get(Servo.class, "H1Servo1_Arm1");
+        Servo H1Servo2_Arm2 = hardwareMap.get(Servo.class, "H1Servo2_Arm2");
+        Servo H1Servo3_Arm3 = hardwareMap.get(Servo.class, "H1Servo3_Arm3");
+        Servo H1Servo4_Claw = hardwareMap.get(Servo.class, "H1Servo4_Claw");
         //endregion
-
-        Servo arm = hardwareMap.get(Servo.class, "Arm");
-        Servo rotator = hardwareMap.get(Servo.class, "Rotator");
-
+        
         //region Initial positions
-        //driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
-
+//        driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
+        //endregion
 
         waitForStart();
 
         while (opModeIsActive()) {
             //region Driving
-//            if (gamepad1.right_stick_x <= 0.5 && gamepad1.right_stick_x >= -0.5 && gamepad1.right_stick_y <= -0.3)
-//                driveMove(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR, (float) 0.3);
-//            else if (gamepad1.right_stick_x <= 0.5 && gamepad1.right_stick_x >= -0.5 && gamepad1.right_stick_y >= 0.3)
-//                driveMove(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) -0.3);
-//            else
-//                driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
-//
-//            if(gamepad1.right_stick_x >= 0.2 && gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_y >= -0.5 )
-//                driveStrafe(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) 0.4);
-//            else if(gamepad1.right_stick_x <= -0.2 && gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_y >= -0.5 )
-//                driveStrafe(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) -0.4);
-//            else
-//                driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
-//
-//            if(gamepad1.left_stick_y >= -0.5 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_x >= 0.2)
-//                driveTurn(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) 0.2);
-//            else if(gamepad1.left_stick_y >= -0.5 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_x <= -0.2)
-//                driveTurn(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR,  (float) -0.2);
-//            else
-//                driveZero(H1Motor2_FL, H1Motor3_FR, H1Motor0_BL, H1Motor1_BR);
+            if (gamepad1.right_stick_x <= 0.5 && gamepad1.right_stick_x >= -0.5 && gamepad1.right_stick_y <= -0.3)
+                driveMove(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) 0.3);
+            else if (gamepad1.right_stick_x <= 0.5 && gamepad1.right_stick_x >= -0.5 && gamepad1.right_stick_y >= 0.3)
+                driveMove(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR,  (float) -0.3);
+            else
+                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
+
+            if(gamepad1.right_stick_x >= 0.2 && gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_y >= -0.5 )
+                driveStrafe(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR,  (float) 0.4);
+            else if(gamepad1.right_stick_x <= -0.2 && gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_y >= -0.5 )
+                driveStrafe(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR,  (float) -0.4);
+            else
+                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
+
+            if(gamepad1.left_stick_y >= -0.5 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_x >= 0.2)
+                driveTurn(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR,  (float) 0.2);
+            else if(gamepad1.left_stick_y >= -0.5 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_x <= -0.2)
+                driveTurn(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR,  (float) -0.2);
+            else
+                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
             //endregion
 
             //region Servos
-//            if(gamepad1.dpad_up || gamepad1.dpad_down)
-//            {
-//                H1Servo0_ArmL.setPosition(armPos(0.05f, gamepad1));
-//                H1Servo1_ArmR.setPosition(1 - armPos(0.05f, gamepad1));
-//            }
-
-//            if(gamepad1.dpad_left || gamepad1.dpad_right)
-//            {
-//                H1Servo2_ClawL.setPosition(clawPos(0.05f, gamepad1));
-//                H1Servo3_ClawR.setPosition(1 - clawPos(0.05f, gamepad1));
-//            }
+            if(gamepad2.dpad_left) {
+                H1Servo0_Rotator.setPosition(rotator_position);
+            }
+            if(gamepad2.dpad_right){
+                H1Servo0_Rotator.setPosition(rotator_position + 0.5);
+            }
+            if(gamepad2.dpad_up){
+                H1Servo1_Arm1.setPosition(0.55);
+                H1Servo2_Arm2.setPosition(1 - 0.55);
+                H1Servo3_Arm3.setPosition(arm3_pos + 0.3);
+            }
+            if(gamepad2.dpad_down){
+                H1Servo1_Arm1.setPosition(0.23);
+                H1Servo1_Arm1.setPosition(1- 0.23);
+                H1Servo3_Arm3.setPosition(arm3_pos);
+            }
+            if(gamepad2.a){
+                okAndy = !okAndy;
+                sleep(50);
+            }
+            H1Servo4_Claw.setPosition(okAndy?1:0.5);
             //endregion
 
-
+            if(gamepad2.right_trigger != 0){
+                H2Motor2_Duck.setVelocity(5);
+            }
 
         }
     }
