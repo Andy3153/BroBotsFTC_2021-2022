@@ -28,7 +28,7 @@ public class gunoier extends LinearOpMode {
     public void runOpMode() {
         //region Declaring variables
         float driveMoveSpeed, driveStrafeSpeed, driveTurnSpeed;
-        float rotator_position = 0, arm1_pos = (float)0.2, arm3_pos = 0;
+        float rotator_position =(float) 0.1, arm1_pos = (float)0.2, arm3_pos = 0;
         boolean okAndy = false;
         //endregion
 
@@ -40,10 +40,10 @@ public class gunoier extends LinearOpMode {
         DcMotorEx H2Motor2_Duck = hardwareMap.get(DcMotorEx.class, "H2Motor2_Duck");
 
         Servo H1Servo0_Rotator = hardwareMap.get(Servo.class, "H1Servo0_Rotator");
-        Servo H1Servo1_Arm1 = hardwareMap.get(Servo.class, "H1Servo1_Arm1");
-        Servo H1Servo2_Arm2 = hardwareMap.get(Servo.class, "H1Servo2_Arm2");
-        Servo H1Servo3_Arm3 = hardwareMap.get(Servo.class, "H1Servo3_Arm3");
-        Servo H1Servo4_Claw = hardwareMap.get(Servo.class, "H1Servo4_Claw");
+        Servo H1Servo1_Coi1 = hardwareMap.get(Servo.class, "H1Servo1_Coi1");
+        Servo H1Servo2_Coi2 = hardwareMap.get(Servo.class, "H1Servo2_Coi2");
+        Servo H1Servo3_Shaft = hardwareMap.get(Servo.class, "H1Servo3_Shaft");
+        Servo H1Servo4_Tip = hardwareMap.get(Servo.class, "H1Servo4_Tip");
         //endregion
         
         //region Initial positions
@@ -81,23 +81,23 @@ public class gunoier extends LinearOpMode {
                 H1Servo0_Rotator.setPosition(rotator_position);
             }
             if(gamepad2.dpad_right){
-                H1Servo0_Rotator.setPosition(rotator_position + 0.5);
+                H1Servo0_Rotator.setPosition(rotator_position + 0.4);
             }
             if(gamepad2.dpad_up){
-                H1Servo1_Arm1.setPosition(0.55);
-                H1Servo2_Arm2.setPosition(1 - 0.55);
-                H1Servo3_Arm3.setPosition(arm3_pos + 0.3);
+                H1Servo1_Coi1.setPosition(0.55);
+//                H1Servo2_Coi2.setPosition(1 - 0.55);
+                H1Servo3_Shaft.setPosition(arm3_pos + 0.3);
             }
             if(gamepad2.dpad_down){
-                H1Servo1_Arm1.setPosition(0.23);
-                H1Servo1_Arm1.setPosition(1- 0.23);
-                H1Servo3_Arm3.setPosition(arm3_pos);
+                H1Servo1_Coi1.setPosition(0.2);
+//                H1Servo1_Coi1.setPosition(1- 0.2);
+                H1Servo3_Shaft.setPosition(arm3_pos);
             }
             if(gamepad2.a){
                 okAndy = !okAndy;
-                sleep(50);
+                sleep(150);
             }
-            H1Servo4_Claw.setPosition(okAndy?1:0.5);
+            H1Servo4_Tip.setPosition(okAndy?1:0.5);
             //endregion
 
             if(gamepad2.right_trigger != 0){
