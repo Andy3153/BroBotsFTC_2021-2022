@@ -11,4 +11,5 @@ public class constants
     public static final double driveWheelDiameter = 9.6; // goBILDA mecanum wheel diameter
     public static final double driveWheelCircumference = Math.PI * driveWheelDiameter; // goBILDA wheel circumference (pi * diameter)
     public static final double dickSize = driveWheelCircumference / driveMotorTickCount; // cata distanta reprezitna un tick
+    public static final double cmInTicks = 19; // un centimetru are atatea tikuri
 }

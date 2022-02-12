@@ -28,7 +28,7 @@ public class gunoier extends LinearOpMode {
     public void runOpMode() {
         //region Declaring variables
         float driveMoveSpeed, driveStrafeSpeed, driveTurnSpeed;
-        float rotator_position =(float) 0.1, arm1_pos = (float)0.2, arm3_pos = 0;
+        float rotator_position =(float) 0.2, arm1_pos = (float)0.2, arm3_pos = 0;
         boolean okAndy = false;
         //endregion
 
@@ -81,29 +81,30 @@ public class gunoier extends LinearOpMode {
                 H1Servo0_Rotator.setPosition(rotator_position);
             }
             if(gamepad2.dpad_right){
-                H1Servo0_Rotator.setPosition(rotator_position + 0.4);
+                H1Servo0_Rotator.setPosition(rotator_position + 0.3);
             }
             if(gamepad2.dpad_up){
                 H1Servo1_Coi1.setPosition(0.55);
-//                H1Servo2_Coi2.setPosition(1 - 0.55);
+                H1Servo2_Coi2.setPosition(1 - 0.55);
                 H1Servo3_Shaft.setPosition(arm3_pos + 0.3);
             }
             if(gamepad2.dpad_down){
-                H1Servo1_Coi1.setPosition(0.2);
-//                H1Servo1_Coi1.setPosition(1- 0.2);
+                H1Servo1_Coi1.setPosition(0.8);
+                H1Servo2_Coi2.setPosition(1 - 0.8);
                 H1Servo3_Shaft.setPosition(arm3_pos);
             }
             if(gamepad2.a){
                 okAndy = !okAndy;
-                sleep(150);
+                sleep(300);
             }
             H1Servo4_Tip.setPosition(okAndy?1:0.5);
             //endregion
 
-            if(gamepad2.right_trigger != 0){
-                H2Motor2_Duck.setVelocity(5);
+            if(gamepad2.right_trigger != 0) {
+                H2Motor2_Duck.setPower(1);
             }
-
+        telemetry.addData("Motor: ", H1Motor0_FL.getCurrentPosition());
+            telemetry.update();
         }
     }
 }

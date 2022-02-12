@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 // Our code *communism*
 // constants for wheel info
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import static org.firstinspires.ftc.teamcode.functions.constants.driveMotorTickCount;
 import static org.firstinspires.ftc.teamcode.functions.constants.driveWheelDiameter;
 import static org.firstinspires.ftc.teamcode.functions.constants.driveWheelCircumference;
@@ -44,17 +45,56 @@ public class pastelaura extends LinearOpMode
         //endregion
 
         //region initialize servo positions
-        H1Servo0_Rotator.setPosition(0);
-        H1Servo1_Coi1.setPosition(0.55);
-        H1Servo2_Coi2.setPosition(1 - 0.55);
-        H1Servo3_Shaft.setPosition(0.3);
+        H1Servo0_Rotator.setPosition(0.5);
+        H1Servo1_Coi1.setPosition(0.2);
+        H1Servo2_Coi2.setPosition(1 - 0.2);
+        H1Servo3_Shaft.setPosition(0.8);
+        H1Servo4_Tip.setPosition(1);
         //endregion
 
         waitForStart();
 
         while (opModeIsActive())
         {
-            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, 10);
+//            H1Servo3_Shaft.setPosition(0);
+//            sleep(300);
+
+//            H1Servo1_Coi1.setPosition(0.6);
+//            H1Servo2_Coi2.setPosition(1 - 0.6);
+//
+//            sleep(1000);
+//
+//            H1Servo1_Coi1.setPosition(0.7);
+//            H1Servo2_Coi2.setPosition(1 - 0.7);
+//
+//            sleep(300);
+//
+//            H1Servo1_Coi1.setPosition(0.75);
+//            H1Servo2_Coi2.setPosition(1 - 0.75);
+//
+//            sleep(200);
+//
+//            H1Servo1_Coi1.setPosition(0.8);
+//            H1Servo2_Coi2.setPosition(1 - 0.8);
+
+            H1Servo1_Coi1.setPosition(0.55);
+            H1Servo2_Coi2.setPosition(1 - 0.55);
+            H1Servo3_Shaft.setPosition(0.3);
+
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, -45);
+            sleep(1000);
+            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, -50);
+            sleep(1000);
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, -85);
+            sleep(1000);
+            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 30);
+            sleep(1000);
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 55);
+            sleep(1000);
+            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 10);
+            sleep(1000);
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 100);
+
 
             break; //stop robot milsugi
         }

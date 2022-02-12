@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 // Our code *communism*
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+import static org.firstinspires.ftc.teamcode.functions.constants.cmInTicks;
 import static org.firstinspires.ftc.teamcode.functions.constants.dickSize;
 import static org.firstinspires.ftc.teamcode.functions.constants.driveMotorTickCount;
 import static org.firstinspires.ftc.teamcode.functions.constants.driveWheelCircumference;
@@ -76,22 +77,22 @@ public class robotMovement
         int encoderDrivingTarget = (int)(howManyCm / dickSize);
         //endregion
 
-        //region make some motors go backwards if needed
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        //endregion
+//        //region make some motors go backwards if needed
+//        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        //endregion
 
         //region tell the motors they should go where they need to
-        FL.setTargetPosition(encoderDrivingTarget);
+        FL.setTargetPosition(-encoderDrivingTarget);
         FR.setTargetPosition(encoderDrivingTarget);
-        BL.setTargetPosition(encoderDrivingTarget);
+        BL.setTargetPosition(-encoderDrivingTarget);
         BR.setTargetPosition(encoderDrivingTarget);
         //endregion
 
         //region set the given power to the motors
-        FL.setPower(speed);
+        FL.setPower(-speed);
         FR.setPower(speed);
-        BL.setPower(speed);
+        BL.setPower(-speed);
         BR.setPower(speed);
         //endregion
 
@@ -103,7 +104,7 @@ public class robotMovement
         //endregion
 
         //region make code do random funny shit while motors are busy
-        while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
+        while (FL.isBusy() || FR.isBusy() || BL.isBusy() || BR.isBusy())
         {
             int sugipula=69;
             int bagpulainrobotica = 420;
@@ -112,6 +113,10 @@ public class robotMovement
         //endregion
 
         //region set the motors power to 0 since we are done
+        FL.setPower(-0.1);
+        FR.setPower(-0.1);
+        BL.setPower(-0.1);
+        BR.setPower(-0.1);
         FL.setPower(0);
         FR.setPower(0);
         BL.setPower(0);
@@ -124,10 +129,15 @@ public class robotMovement
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //endregion
+
+
+//        //region make some motors go backwards if needed
+//        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        //endregion
     }
 
-    public static void autoDriveStrafev2(DcMotorEx FL, DcMotorEx FR, DcMotorEx BL, DcMotorEx BR, double speed, int howManyCm)
-    {
+    public static void autoDriveStrafev2(DcMotorEx FL, DcMotorEx FR, DcMotorEx BL, DcMotorEx BR, double speed, int howManyCm) {
         //region reset tick count to 0
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -137,24 +147,26 @@ public class robotMovement
 
         //region calculate how many ticks are needed for the amount of centimeters given
         double rotationsNeeded = howManyCm / driveWheelCircumference;
-        int encoderDrivingTarget = (int)(rotationsNeeded * driveMotorTickCount);
+        int encoderDrivingTarget = (int) (howManyCm / dickSize);
         //endregion
 
-        //region make some motors go backwards if needed
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-        //endregion
+//        //region make some motors go backwards if needed
+////        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+////        FR.setDirection(DcMotorSimple.Direction.REVERSE);\
+//        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+//        //endregion
 
         //region tell the motors they should go where they need to
-        FL.setTargetPosition(encoderDrivingTarget);
-        FR.setTargetPosition(encoderDrivingTarget);
+        FL.setTargetPosition(-encoderDrivingTarget);
+        FR.setTargetPosition(-encoderDrivingTarget);
         BL.setTargetPosition(encoderDrivingTarget);
         BR.setTargetPosition(encoderDrivingTarget);
         //endregion
 
         //region set the given power to the motors
-        FL.setPower(speed);
-        FR.setPower(speed);
+        FL.setPower(-speed);
+        FR.setPower(-speed);
         BL.setPower(speed);
         BR.setPower(speed);
         //endregion
@@ -167,15 +179,18 @@ public class robotMovement
         //endregion
 
         //region make code do random funny shit while motors are busy
-        while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
-        {
-            int sugipula=69;
+        while (FL.isBusy() || FR.isBusy() || BL.isBusy() || BR.isBusy()) {
+            int sugipula = 69;
             int bagpulainrobotica = 420;
             sugipula += bagpulainrobotica;
         }
         //endregion
 
         //region set the motors power to 0 since we are done
+        FL.setPower(-0.1);
+        FR.setPower(-0.1);
+        BL.setPower(-0.1);
+        BR.setPower(-0.1);
         FL.setPower(0);
         FR.setPower(0);
         BL.setPower(0);
@@ -188,6 +203,13 @@ public class robotMovement
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //endregion
+
+//        //region make some motors go backwards if needed
+////        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+////        FR.setDirection(DcMotorSimple.Direction.REVERSE);\
+//        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+//        //endregion
     }
 
     public static void autoDriveTurnv2(DcMotorEx FL, DcMotorEx FR, DcMotorEx BL, DcMotorEx BR, double speed, int howManyCm)
@@ -201,7 +223,7 @@ public class robotMovement
 
         //region calculate how many ticks are needed for the amount of centimeters given
         double rotationsNeeded = howManyCm / driveWheelCircumference;
-        int encoderDrivingTarget = (int)(rotationsNeeded * driveMotorTickCount);
+        int encoderDrivingTarget = (int)(howManyCm * cmInTicks);
         //endregion
 
         //region make some motors go backwards if needed
@@ -209,6 +231,13 @@ public class robotMovement
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        //endregion
+
+        //region tell the motors to go to the set position
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //endregion
 
         //region tell the motors they should go where they need to
@@ -219,29 +248,30 @@ public class robotMovement
         //endregion
 
         //region set the given power to the motors
-        FL.setPower(speed);
-        FR.setPower(speed);
-        BL.setPower(speed);
-        BR.setPower(speed);
+//        FL.setPower(speed);
+//        FR.setPower(speed);
+//        BL.setPower(speed);
+//        BR.setPower(speed);
         //endregion
 
-        //region tell the motors to go to the set position
-        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //endregion
+
 
         //region make code do random funny shit while motors are busy
-        while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
+        while (FL.isBusy() || FR.isBusy() || BL.isBusy() || BR.isBusy())
         {
             int sugipula=69;
             int bagpulainrobotica = 420;
             sugipula += bagpulainrobotica;
+            telemetry.addData("Pozitie motor 1", FL.getCurrentPosition());
+            telemetry.update();
         }
         //endregion
 
         //region set the motors power to 0 since we are done
+        FL.setPower(-0.1);
+        FR.setPower(-0.1);
+        BL.setPower(-0.1);
+        BR.setPower(-0.1);
         FL.setPower(0);
         FR.setPower(0);
         BL.setPower(0);
@@ -256,7 +286,7 @@ public class robotMovement
         //endregion
     }
 
-    public static void autoDriveMove(DcMotor FL, DcMotor FR, DcMotor BL, DcMotor BR, double speed, int Pixeli) //int encoderDrivingTarget) //int howManyCm)
+    public static void autoDriveMove(DcMotor FL, DcMotor FR, DcMotor BL, DcMotor BR, double speed, int Pixeli) //int encoderDrivingTarget) //int howManyCm) //Pixelii sunt
     {
         FR.setDirection(DcMotor.Direction.REVERSE);
         BR.setDirection(DcMotor.Direction.REVERSE);
