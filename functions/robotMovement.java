@@ -187,10 +187,10 @@ public class robotMovement
         //endregion
 
         //region set the motors power to 0 since we are done
-        FL.setPower(-0.1);
-        FR.setPower(-0.1);
-        BL.setPower(-0.1);
-        BR.setPower(-0.1);
+        FL.setPower(-0.01);
+        FR.setPower(-0.01);
+        BL.setPower(-0.01);
+        BR.setPower(-0.01);
         FL.setPower(0);
         FR.setPower(0);
         BL.setPower(0);

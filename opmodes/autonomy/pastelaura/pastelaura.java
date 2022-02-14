@@ -19,6 +19,35 @@ import static org.firstinspires.ftc.teamcode.functions.robotMovement.autoDriveSt
 import static org.firstinspires.ftc.teamcode.functions.robotMovement.autoDriveTurnv2;
 //endregion
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.opencv.core.Mat;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
+import org.openftc.easyopencv.OpenCvWebcam;
+import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvViewport;
+import org.openftc.easyopencv.OpenCvTracker;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvPipeline;
+
+
+
+abstract class pipeline extends OpenCvPipeline
+{
+    public Mat processFrame(Mat input)
+    {
+        return input;
+    }
+}
+
 @Autonomous(name="PasteLaura", group="Autonomous")
 public class pastelaura extends LinearOpMode
 {
@@ -52,6 +81,48 @@ public class pastelaura extends LinearOpMode
         H1Servo4_Tip.setPosition(1);
         //endregion
 
+        int width = 320;
+        int height = 240;
+
+        //region camera
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        WebcamName webcam = hardwareMap.get(WebcamName.class, "milcamerezi");
+
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
+
+        camera.openCameraDevice();
+
+        camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+
+        pipeline Pipe = new pipeline() {
+            @Override
+            public Mat processFrame(Mat input) {
+                // Make a working copy of the input matrix in HSV
+                Mat mat = new Mat();
+                Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
+
+                // We create a HSV range for yellow to detect the game element
+                // NOTE: In OpenCV's implementation,
+                // Hue values are half the real value
+                Scalar lowHSV = new Scalar(20, 100, 100); // lower bound HSV for GRENA
+                Scalar highHSV = new Scalar(30, 255, 255); // higher bound HSV for GRENA
+                Mat thresh = new Mat();
+
+                // We'll get a black and white image. The white regions represent the regular stones.
+                // inRange(): thresh[i][j] = {255,255,255} if mat[i][i] is within the range
+                Core.inRange(mat, lowHSV, highHSV, thresh);
+
+
+
+                return input;
+            }
+        };
+
+        camera.setPipeline(Pipe);
+        //endregion
+
         waitForStart();
 
         while (opModeIsActive())
@@ -81,20 +152,39 @@ public class pastelaura extends LinearOpMode
             H1Servo2_Coi2.setPosition(1 - 0.55);
             H1Servo3_Shaft.setPosition(0.3);
 
-            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, -45);
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, -75);
             sleep(1000);
-            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, -50);
+            H1Servo0_Rotator.setPosition(0.4);
+            sleep(200);
+            H1Servo0_Rotator.setPosition(0.35);
+            sleep(100);
+            H1Servo0_Rotator.setPosition(0.3);
+            sleep(100);
+            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, -68); // ajunge la hub si lasa cub
+            H1Servo4_Tip.setPosition(0.5);
             sleep(1000);
-            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, -85);
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, -100);
+            H1Servo0_Rotator.setPosition(0.4);
+            sleep(200);
+            H1Servo0_Rotator.setPosition(0.45);
+            sleep(100);
+            H1Servo0_Rotator.setPosition(0.5);
+            sleep(500);
+            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, 45);// ajunge la carusel
+            H2Motor2_Duck.setPower(0.35);
+            sleep(3500);
+            H2Motor2_Duck.setPower(0);
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, 55);
             sleep(1000);
-            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 30);
+            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, 25);
             sleep(1000);
-            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 55);
-            sleep(1000);
-            autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 10);
-            sleep(1000);
-            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.1, 100);
+            autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, 195);
+            H1Servo1_Coi1.setPosition(0.2);
+            H1Servo2_Coi2.setPosition(1 - 0.2);
+            H1Servo3_Shaft.setPosition(0.8);
+            sleep(2000);
 
+            //ZIUA LU ANDI E PE 2 IUNIE
 
             break; //stop robot milsugi
         }
