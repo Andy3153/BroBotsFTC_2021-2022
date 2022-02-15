@@ -171,7 +171,7 @@ public class pastelaura extends LinearOpMode
             H1Servo0_Rotator.setPosition(0.5);
             sleep(500);
             autoDriveStrafev2(H1Motor0_FL,H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, 45);// ajunge la carusel
-            H2Motor2_Duck.setPower(0.35);
+            H2Motor2_Duck.setPower(0.4);
             sleep(3500);
             H2Motor2_Duck.setPower(0);
             autoDriveMovev2(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, 0.5, 55);

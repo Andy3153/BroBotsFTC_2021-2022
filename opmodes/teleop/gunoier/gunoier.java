@@ -28,7 +28,7 @@ public class gunoier extends LinearOpMode {
     public void runOpMode() {
         //region Declaring variables
         float driveMoveSpeed, driveStrafeSpeed, driveTurnSpeed;
-        float rotator_position = (float) 0.2, arm1_pos = (float) 0.2, arm3_pos = 0, speed = (float) 0.4;
+        float rotator_position = (float) 0.2, arm1_pos = (float) 0.2, arm3_pos = 0, speed = (float) 0.6;
         boolean okAndy = false;
         //endregion
 
@@ -61,10 +61,10 @@ public class gunoier extends LinearOpMode {
         while (opModeIsActive()) {
             //region Driving
             if (gamepad1.right_bumper) {
-                speed = (float) 0.15;
+                speed = (float) 0.25;
             }
             if (gamepad1.left_bumper) {
-                speed = (float) 0.5;
+                speed = (float) 0.6;
             }
             if (gamepad1.left_stick_x <= 0.5 && gamepad1.left_stick_x >= -0.5 && gamepad1.left_stick_y <= -0.3)
                 driveMove(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) speed);
@@ -74,16 +74,16 @@ public class gunoier extends LinearOpMode {
                 driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
 
             if (gamepad1.left_stick_x >= 0.2 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_y >= -0.5)
-                driveStrafe(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) speed);
+                driveStrafe(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) (speed + 0.1));
             else if (gamepad1.left_stick_x <= -0.2 && gamepad1.left_stick_y <= 0.5 && gamepad1.left_stick_y >= -0.5)
-                driveStrafe(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) -speed);
+                driveStrafe(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) -(speed + 0.1));
             else
                 driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
 
             if (gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_x >= 0.2)
-                driveTurn(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) speed);
+                driveTurn(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) (speed + 0.1));
             else if (gamepad1.right_stick_y >= -0.5 && gamepad1.right_stick_y <= 0.5 && gamepad1.right_stick_x <= -0.2)
-                driveTurn(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) -speed);
+                driveTurn(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR, (float) -(speed +0.1));
             else
                 driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
             //endregion
@@ -98,6 +98,9 @@ public class gunoier extends LinearOpMode {
             if (gamepad2.dpad_up) {
                 H1Servo1_Coi1.setPosition(0.55);
                 H1Servo2_Coi2.setPosition(1 - 0.55);
+                H1Servo3_Shaft.setPosition(arm3_pos + 0.65);
+                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
+                sleep(500);
                 H1Servo3_Shaft.setPosition(arm3_pos + 0.3);
             }
             if (gamepad2.x) {
@@ -109,10 +112,12 @@ public class gunoier extends LinearOpMode {
                 H1Servo3_Shaft.setPosition(arm3_pos);
                 H1Servo1_Coi1.setPosition(0.7);
                 H1Servo2_Coi2.setPosition(1 - 0.7);
+                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
                 sleep(300);
 
                 H1Servo1_Coi1.setPosition(0.75);
                 H1Servo2_Coi2.setPosition(1 - 0.75);
+                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
                 sleep(200);
 
                 H1Servo1_Coi1.setPosition(0.82);
@@ -130,7 +135,7 @@ public class gunoier extends LinearOpMode {
             //endregion
 
             if(gamepad2.right_trigger > 0)
-                H2Motor2_Duck.setPower(gamepad2.right_trigger >= 0.7 ? 0.7 : gamepad2.right_trigger);
+                H2Motor2_Duck.setPower(gamepad2.right_trigger >= 0.65 ? 0.65 : gamepad2.right_trigger);
 
 //            if (gamepad2.right_trigger != 0)
 //            {
