@@ -103,14 +103,19 @@ public class pastelaura extends LinearOpMode
                 Mat mat = new Mat();
                 mat = input;
 
-//                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2HSV);
+                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2HSV);
 //
-//                Scalar lowHSV1 = new Scalar(170,50,10);
-//                Scalar highHSV1 = new Scalar(180,200,100);
+                Scalar lowHSV1 = new Scalar(170,50,10);
+                Scalar highHSV1 = new Scalar(180,200,100);
+//
+                Core.inRange(mat, lowHSV1, highHSV1, mat);
 
-//                Core.inRange(mat, lowHSV1, highHSV1, mat);
+                Point region1_a = new Point(0,480);
+                Point region1_b = new Point(100,580);
 
-                Point region1_a = new Point(50,480);
+                 final Scalar BLUE = new Scalar(0, 0, 255);
+
+                
 
                 return super.processFrame(mat);
             }
