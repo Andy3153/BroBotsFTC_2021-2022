@@ -35,9 +35,16 @@ import static org.firstinspires.ftc.teamcode.functions.robotMovement.autoDriveSt
 public class pastelaurav2 extends LinearOpMode
 {
     //region vuforia shit
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Quad";
-    private static final String LABEL_SECOND_ELEMENT = "Single";
+    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite"; //"mabeicuspume";
+    private static final String[] LABELS =
+    {
+            "Ball",
+            "Cube",
+            "Duck",
+            "Marker"
+    };
+    private static final String LABEL_FIRST_ELEMENT = "Cube";
+    private static final String LABEL_SECOND_ELEMENT = "Duck";
     private static final String VUFORIA_KEY = vuforiaKey;
 
     private VuforiaLocalizer vuforia;
@@ -104,7 +111,7 @@ public class pastelaurav2 extends LinearOpMode
         if (tfod != null)
         {
             tfod.activate();
-            tfod.setZoom(1.5, 16.0 / 9.0); //camera zoom
+            tfod.setZoom(1, 16.0 / 9.0); //camera zoom
         }
 
         telemetry.addData(">", "Ready to press 'Play'.");
