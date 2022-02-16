@@ -38,6 +38,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.opencv.core.Point;
 
 
 
@@ -88,47 +89,45 @@ public class pastelaura extends LinearOpMode
 
         //region camera
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         WebcamName webcam = hardwareMap.get(WebcamName.class, "milcamerezi");
 
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
 
-        camera.openCameraDevice();
 
-        camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+        camera.openCameraDevice();
 
         pipeline Pipe = new pipeline() {
             @Override
             public Mat processFrame(Mat input) {
-                // Make a working copy of the input matrix in HSV
                 Mat mat = new Mat();
-                Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
+                mat = input;
 
-                // We create a HSV range for yellow to detect the game element
-                // NOTE: In OpenCV's implementation,
-                // Hue values are half the real value
-                Scalar lowHSV = new Scalar(20, 100, 100); // lower bound HSV for GRENA
-                Scalar highHSV = new Scalar(30, 255, 255); // higher bound HSV for GRENA
-                Mat thresh = new Mat();
+//                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2HSV);
+//
+//                Scalar lowHSV1 = new Scalar(170,50,10);
+//                Scalar highHSV1 = new Scalar(180,200,100);
 
-                // We'll get a black and white image. The white regions represent the regular stones.
-                // inRange(): thresh[i][j] = {255,255,255} if mat[i][i] is within the range
-                Core.inRange(mat, lowHSV, highHSV, thresh);
+//                Core.inRange(mat, lowHSV1, highHSV1, mat);
 
+                Point region1_a = new Point(50,480);
 
-
-                return input;
+                return super.processFrame(mat);
             }
         };
 
         camera.setPipeline(Pipe);
+
+        camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
         //endregion
+
+
 
         waitForStart();
 
         while (opModeIsActive())
         {
+            camera.closeCameraDevice();
 //            H1Servo3_Shaft.setPosition(0);
 //            sleep(300);
 
