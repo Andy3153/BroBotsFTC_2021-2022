@@ -42,6 +42,8 @@ import org.opencv.core.Point;
 
 
 
+
+
 abstract class pipeline extends OpenCvPipeline
 {
     public Mat processFrame(Mat input)
@@ -54,6 +56,10 @@ abstract class pipeline extends OpenCvPipeline
 //@Disabled
 public class pastelaura extends LinearOpMode
 {
+    void schimbaVAR(int max, int MAX){
+        max = MAX;
+    }
+
     public void runOpMode()
     {
         //region Declaring variables
@@ -87,6 +93,8 @@ public class pastelaura extends LinearOpMode
         int width = 320;
         int height = 240;
 
+        int MAX = -1;
+
         //region camera
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -101,29 +109,89 @@ public class pastelaura extends LinearOpMode
             @Override
             public Mat processFrame(Mat input) {
                 Mat mat = new Mat();
+//                Mat roi = input;
                 mat = input;
-
-                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2HSV);
-//
-                Scalar lowHSV1 = new Scalar(170,50,10);
-                Scalar highHSV1 = new Scalar(180,200,100);
-//
-                Core.inRange(mat, lowHSV1, highHSV1, mat);
 
                 Point region1_a = new Point(0,480);
                 Point region1_b = new Point(100,580);
 
-                 final Scalar BLUE = new Scalar(0, 0, 255);
 
-                
+                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2HSV);
 
-                return super.processFrame(mat);
+                Scalar lowHSV1 = new Scalar(170,50,10);
+                Scalar highHSV1 = new Scalar(180,200,100);
+
+                Core.inRange(mat, lowHSV1, highHSV1, mat);
+
+                Point r1p1 = new Point(0,0);
+                Point r1p2 = new Point(mat.width()/3f,mat.height());
+                Point r2p1 = new Point(mat.width()/3f,0);
+                Point r2p2 = new Point((2*mat.width())/3f,mat.height());
+                Point r3p1 = new Point((2*mat.width())/3f,0);
+                Point r3p2 = new Point(mat.width(),mat.height());
+
+
+
+                Rect rect1 = new Rect(r1p1,r1p2);
+                Rect rect2 = new Rect(r2p1,r2p2);//
+                Rect rect3 = new Rect(r3p1,r3p2);// //            Rect rect2 = new Rect(mat.width()/2,50,mat.width() - 10,mat.height()- 10);
+
+                int region1, region2, region3;
+
+                Mat matLeft = mat.submat(rect1);
+                Mat matCenter = mat.submat(rect2);
+                Mat matRight = mat.submat(rect3);
+
+
+                region1 = Core.countNonZero(matLeft);
+                region2 = Core.countNonZero(matCenter);
+                region3 = Core.countNonZero(matRight);
+
+                int max;
+
+                if(region1 > region2)
+                    if(region1 > region3)
+                        max = 1;
+                    else
+                        max = 3;
+                else
+                    if(region2 > region3)
+                        max = 2;
+                    else
+                        max = 3;
+                    schimbaVAR(max, MAX);
+
+                telemetry.addData("E in ", max);
+
+//                region1 = Core.countNonZero(matLeft);
+
+//                telemetry.addData("Pixeli ", region1);
+                telemetry.update();
+
+
+
+                //fuck rectangles
+                //I fucking hate racntagles andy help
+                //andy unde este tu vino save me
+                // java is retarded
+
+
+
+                return super.processFrame(input);
             }
         };
 
         camera.setPipeline(Pipe);
 
         camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
+
+        if(MAX != -1){
+            camera.stopStreaming();
+            telemetry.addData("MERGEEE E PE ", MAX);
+            telemetry.update();
+        }
+
+//        camera.stopStreaming();
         //endregion
 
 
