@@ -18,7 +18,6 @@ import static org.firstinspires.ftc.teamcode.functions.constants.driveWheelCircu
 import static org.firstinspires.ftc.teamcode.functions.robotMovement.autoDriveMovev2;
 import static org.firstinspires.ftc.teamcode.functions.robotMovement.autoDriveStrafev2;
 import static org.firstinspires.ftc.teamcode.functions.robotMovement.autoDriveTurnv2;
-//endregion
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Mat;
@@ -39,10 +38,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.opencv.core.Point;
-
-
-
-
+//endregion
 
 abstract class pipeline extends OpenCvPipeline
 {
@@ -52,13 +48,27 @@ abstract class pipeline extends OpenCvPipeline
     }
 }
 
+class location{
+    int location = -1, nrpix = 0;
+    void setLocation(int i){
+        this.location = i;
+    }
+
+    int getLocation(){
+        return location;
+    }
+}
+
 @Autonomous(name="PasteLaura", group="Autonomous")
-//@Disabled
 public class pastelaura extends LinearOpMode
 {
+    int andimax;
+
     void schimbaVAR(int max, int MAX){
         max = MAX;
     }
+
+    location loc = new location();
 
     public void runOpMode()
     {
@@ -94,6 +104,8 @@ public class pastelaura extends LinearOpMode
         int height = 240;
 
         int MAX = -1;
+
+
 
         //region camera
 
@@ -159,14 +171,28 @@ public class pastelaura extends LinearOpMode
                         max = 2;
                     else
                         max = 3;
-                    schimbaVAR(max, MAX);
+                //region andi
+//                max = Math.max(Math.max(region1, region2), region3);
+//                andimax = max;
+                //endregion
 
-                telemetry.addData("E in ", max);
 
-//                region1 = Core.countNonZero(matLeft);
 
-//                telemetry.addData("Pixeli ", region1);
+
+
+               loc.setLocation(max);
+               telemetry.clear();
+                telemetry.addData("E in: ", max);//loc.location);
                 telemetry.update();
+
+//                telemetry.addData("E in ", max);
+//
+////                region1 = Core.countNonZero(matLeft);
+//
+////                telemetry.addData("Pixeli ", region1);
+//                telemetry.update();
+
+
 
 
 
@@ -176,20 +202,36 @@ public class pastelaura extends LinearOpMode
                 // java is retarded
 
 
-
+                sleep(300);
                 return super.processFrame(input);
             }
         };
+
 
         camera.setPipeline(Pipe);
 
         camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
 
-        if(MAX != -1){
-            camera.stopStreaming();
-            telemetry.addData("MERGEEE E PE ", MAX);
-            telemetry.update();
-        }
+//        telemetry.addData("E in: ", andimax);//loc.location);
+//        telemetry.update();
+
+        telemetry.log();
+
+
+//        telemetry.addData("E in: ", loc.getLocation());
+//        telemetry.update();
+
+//        if(loc.getLocation() != -1){
+//            telemetry.addData("LETS GOOOOOO: ", loc.getLocation());
+//            telemetry.update();
+//            camera.stopStreaming();
+//        }
+
+//        if(MAX != -1){
+//            camera.stopStreaming();
+//            telemetry.addData("MERGEEE E PE ", MAX);
+//            telemetry.update();
+//        }
 
 //        camera.stopStreaming();
         //endregion
