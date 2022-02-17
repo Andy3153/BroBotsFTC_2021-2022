@@ -106,7 +106,6 @@ public class pastelaura extends LinearOpMode
         int MAX = -1;
 
 
-
         //region camera
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -118,6 +117,8 @@ public class pastelaura extends LinearOpMode
         camera.openCameraDevice();
 
         pipeline Pipe = new pipeline() {
+            public int max;
+
             @Override
             public Mat processFrame(Mat input) {
                 Mat mat = new Mat();
@@ -159,7 +160,8 @@ public class pastelaura extends LinearOpMode
                 region2 = Core.countNonZero(matCenter);
                 region3 = Core.countNonZero(matRight);
 
-                int max;
+//                public int max;
+
 
                 if(region1 > region2)
                     if(region1 > region3)
@@ -181,9 +183,9 @@ public class pastelaura extends LinearOpMode
 
 
                loc.setLocation(max);
-               telemetry.clear();
-                telemetry.addData("E in: ", max);//loc.location);
-                telemetry.update();
+//               telemetry.clear();
+//                telemetry.addData("E in: ", max);//loc.location);
+//                telemetry.update();
 
 //                telemetry.addData("E in ", max);
 //
@@ -205,15 +207,17 @@ public class pastelaura extends LinearOpMode
                 sleep(300);
                 return super.processFrame(input);
             }
+            int andimax = max;
         };
+
 
 
         camera.setPipeline(Pipe);
 
         camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
 
-//        telemetry.addData("E in: ", andimax);//loc.location);
-//        telemetry.update();
+        telemetry.addData("E in: ", andimax);//loc.location);
+        telemetry.update();
 
         telemetry.log();
 
@@ -237,6 +241,8 @@ public class pastelaura extends LinearOpMode
         //endregion
 
 
+        telemetry.addData("milbei?", andimax);
+        telemetry.update();
 
         waitForStart();
 
