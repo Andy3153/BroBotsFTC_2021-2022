@@ -10,6 +10,6 @@ public class constants
     public static final int driveMotorTickCount = 538; // goBILDA chassis motor ticks ~ 537.7 PPR ((((1 + (46 / 17))) * (1 + (46 / 11))) * 28)
     public static final double driveWheelDiameter = 9.6; // goBILDA mecanum wheel diameter
     public static final double driveWheelCircumference = Math.PI * driveWheelDiameter; // goBILDA wheel circumference (pi * diameter)
-    public static final double dickSize = driveWheelCircumference / driveMotorTickCount; // cata distanta reprezitna un tick
+    public static final double dickSize = driveWheelCircumference / driveMotorTickCount; // the distance of a tick
     public static final double cmInTicks = 19; // un centimetru are atatea tikuri
 }

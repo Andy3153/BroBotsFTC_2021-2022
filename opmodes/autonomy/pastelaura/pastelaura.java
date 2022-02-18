@@ -38,48 +38,62 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.opencv.core.Point;
+
+//file libs
+//import org.firstinspires.ftc.teamcode.functions.log;
+//import org.firstinspires.ftc.teamcode.functions.fileOperations;
+
+import java.io.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+
+
 //endregion
 
-abstract class pipeline extends OpenCvPipeline
-{
-    int max;
-    public Mat processFrame(Mat input)
-    {
-        return input;
-    }
-}
-
-class location{
-    int location = -1, nrpix = 0;
-    void setLocation(int i){
-        this.location = i;
-    }
-
-    int getLocation(){
-        return location;
-    }
-}
+//abstract class pipeline extends OpenCvPipeline
+//{
+////    abstract int gettermilbei(); // {return max;}
+//
+//    public Mat processFrame(Mat input)
+//    {
+//        return input;
+//    }
+//}
 
 @Autonomous(name="PasteLaura", group="Autonomous")
 public class pastelaura extends LinearOpMode
 {
-//    int andimax;
 
-    public Mat andiregion1 = new Mat();
+    /*
+    //I MISS C SO MUCH
+    #include<bits/stdc++.h>
+    int main()
+    {
+        ifstream fin("date.in");
+        ofstream fout("date.in");
 
-    void schimbaVAR(int max, int MAX){
-        max = MAX;
+        fin >> "milsugi";
+        std::cout << fout;
+
+        fin.close();
+        fout.close();
+        return 0;
     }
+    */
 
-    location loc = new location();
-
+//    public int max;
     public void runOpMode()
     {
-        //region Declaring variables
-//        float driveMoveSpeed, driveStrafeSpeed, driveTurnSpeed;
-//        float rotator_position = 0, arm1_pos = (float)0.2, arm3_pos = 0;
-        //endregion
-
         //region Declaring motors
         DcMotorEx H1Motor0_FL = hardwareMap.get(DcMotorEx.class, "H1Motor0_FL");
         DcMotorEx H2Motor0_FR = hardwareMap.get(DcMotorEx.class, "H2Motor0_FR");
@@ -103,139 +117,105 @@ public class pastelaura extends LinearOpMode
         H1Servo4_Tip.setPosition(1);
         //endregion
 
-        int width = 320;
-        int height = 240;
-
-        int MAX = -1;
-
-
-        //region camera
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        WebcamName webcam = hardwareMap.get(WebcamName.class, "milcamerezi");
-
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
-
-
-        camera.openCameraDevice();
-
-        pipeline Pipe = new pipeline() {
-            public int max;
-
-
-            @Override
-            public Mat processFrame(Mat input) {
-                Mat mat = new Mat();
-
-//                Mat roi = input;
-                mat = input;
-
-                Point region1_a = new Point(0,480);
-                Point region1_b = new Point(100,580);
-
-                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2HSV);
-
-                Scalar lowHSV1 = new Scalar(170,50,10);
-                Scalar highHSV1 = new Scalar(180,200,100);
-
-                Core.inRange(mat, lowHSV1, highHSV1, mat);
-
-                final Mat trash = mat;
-
-                andiregion1 = trash;
-
-                Point r1p1 = new Point(0,0);
-                Point r1p2 = new Point(mat.width()/3f,mat.height());
-                Point r2p1 = new Point(mat.width()/3f,0);
-                Point r2p2 = new Point((2*mat.width())/3f,mat.height());
-                Point r3p1 = new Point((2*mat.width())/3f,0);
-                Point r3p2 = new Point(mat.width(),mat.height());
-
-
-
-                Rect rect1 = new Rect(r1p1,r1p2);
-                Rect rect2 = new Rect(r2p1,r2p2);//
-                Rect rect3 = new Rect(r3p1,r3p2);// //            Rect rect2 = new Rect(mat.width()/2,50,mat.width() - 10,mat.height()- 10);
-
-//                int region1, region2, region3;
-
-                 Mat matLeft = mat.submat(rect1);
-                 Mat matCenter = mat.submat(rect2);
-                 Mat matRight = mat.submat(rect3);
-
-                 int region1 = Core.countNonZero(matLeft);
-                 int region2 = Core.countNonZero(matCenter);
-                 int region3 = Core.countNonZero(matRight);
-
-
-
-
-                andiregion1 = matLeft;
-
-
-
-
-                if(region1 > region2)
-                    if(region1 > region3)
-                        this.max = 1;
-                    else
-                        this.max = 3;
-                else
-                    if(region2 > region3)
-                        this.max = 2;
-                    else
-                        this.max = 3;
-//                region andi
-//                max = Math.max(Math.max(region1, region2), region3);
-//                andimax = max;
-//                endregion
-
-
-
-
-
-//               loc.setLocation(max);
-////               telemetry.clear();
-               telemetry.addData("E in: ", this.max);//loc.location);
-                telemetry.update();
-
-//                telemetry.addData("E in ", max);
+//        int width = 320;
+//        int height = 240;
 //
-////                region1 = Core.countNonZero(matLeft);
+//        //region camera
+//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//        WebcamName webcam = hardwareMap.get(WebcamName.class, "milcamerezi");
+//        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
+//        camera.openCameraDevice();
 //
-////                telemetry.addData("Pixeli ", region1);
-//                telemetry.update();
+//
+//        pipeline Pipe = new pipeline() {
+//
+////            public int gettermilbei()
+////            {
+////                return max;
+////            }
+//
+//            @Override
+//            public Mat processFrame(Mat input) {
+//
+//                Mat mat = new Mat();
+//                mat = input;
+//
+//                Point region1_a = new Point(0,480);
+//                Point region1_b = new Point(100,580);
+//
+//                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2HSV);
+//
+//                Scalar lowHSV1 = new Scalar(170,50,10);
+//                Scalar highHSV1 = new Scalar(180,200,100);
+//
+//                Core.inRange(mat, lowHSV1, highHSV1, mat);
+//
+//                Point r1p1 = new Point(0,0);
+//                Point r1p2 = new Point(mat.width()/3f,mat.height());
+//                Point r2p1 = new Point(mat.width()/3f,0);
+//                Point r2p2 = new Point((2*mat.width())/3f,mat.height());
+//                Point r3p1 = new Point((2*mat.width())/3f,0);
+//                Point r3p2 = new Point(mat.width(),mat.height());
+//
+//                Rect rect1 = new Rect(r1p1,r1p2);
+//                Rect rect2 = new Rect(r2p1,r2p2);//
+//                Rect rect3 = new Rect(r3p1,r3p2);// //            Rect rect2 = new Rect(mat.width()/2,50,mat.width() - 10,mat.height()- 10);
+//
+//                Mat matLeft = mat.submat(rect1);
+//                Mat matCenter = mat.submat(rect2);
+//                Mat matRight = mat.submat(rect3);
+//
+//                int region1 = Core.countNonZero(matLeft);
+//                int region2 = Core.countNonZero(matCenter);
+//                int region3 = Core.countNonZero(matRight);
+//
+////                int max;
+//
+//                if(region1 > region2)
+//                    if(region1 > region3) max = 1;
+//                    else max = 3;
+//                else
+//                if(region2 > region3) max = 2;
+//                else max = 3;
+//
+//
+////                telemetry.addData("E in: ", max );//loc.location);
+////                telemetry.update();
+//
+//
+//                //fuck rectangles
+//                //I fucking hate racntagles andy help
+//                //andy unde este tu vino save me
+//                // java is retarded
+//                //i hate java
+//                //i miss c
+//                //milsugi?
+//
+//                sleep(300);
+//                return super.processFrame(input);
+//            }
+////            int sdf = gettermilbei();
+//
+//
+//
+//        };
+//
+//        camera.setPipeline(Pipe);
+//
+//        camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
 
+//        int maxinafara = pipeline.gettermilbei();
 
+//        telemetry.addData("E in: ", maxinafara);//loc.location);
+//        telemetry.update();
 
-
-
-                //fuck rectangles
-                //I fucking hate racntagles andy help
-                //andy unde este tu vino save me
-                // java is retarded
-
-
-                sleep(300);
-                return super.processFrame(input);
-            }
-        };
-
-
-
-
-        camera.setPipeline(Pipe);
-
-        camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
-
-//        telemetry.addData("E in: ", max);//loc.location);
+//        telemetry.addData("E in: ", andi);//loc.location);
 //        telemetry.update();
 //
 //        telemetry.log();
 
 
-//        telemetry.addData("E in: ", loc.getLocation());
-//        telemetry.update();
+
 
 //        if(loc.getLocation() != -1){
 //            telemetry.addData("LETS GOOOOOO: ", loc.getLocation());
@@ -257,7 +237,7 @@ public class pastelaura extends LinearOpMode
 
         while (opModeIsActive())
         {
-            camera.closeCameraDevice();
+//            camera.closeCameraDevice();
 //            H1Servo3_Shaft.setPosition(0);
 //            sleep(300);
 

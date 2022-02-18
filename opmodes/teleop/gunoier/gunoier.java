@@ -109,19 +109,19 @@ public class gunoier extends LinearOpMode {
                 H1Servo3_Shaft.setPosition(arm3_pos + 0.25);
             }
             if (gamepad2.dpad_down) {
-                H1Servo3_Shaft.setPosition(arm3_pos);
-                H1Servo1_Coi1.setPosition(0.7);
-                H1Servo2_Coi2.setPosition(1 - 0.7);
+                H1Servo3_Shaft.setPosition(arm3_pos + 0.56);
+                H1Servo1_Coi1.setPosition(0.62);
+                H1Servo2_Coi2.setPosition(1 - 0.617);
                 driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
                 sleep(300);
 
-                H1Servo1_Coi1.setPosition(0.75);
-                H1Servo2_Coi2.setPosition(1 - 0.75);
-                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
-                sleep(200);
-
-                H1Servo1_Coi1.setPosition(0.82);
-                H1Servo2_Coi2.setPosition(1 - 0.82);
+//                H1Servo1_Coi1.setPosition(0.75);
+//                H1Servo2_Coi2.setPosition(1 - 0.75);
+//                driveZero(H1Motor0_FL, H2Motor0_FR, H1Motor1_BL, H2Motor1_BR);
+//                sleep(200);
+//
+//                H1Servo1_Coi1.setPosition(0.82);
+//                H1Servo2_Coi2.setPosition(1 - 0.82);
 
             }
             if (gamepad2.a)
